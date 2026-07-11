@@ -64,7 +64,7 @@ export const signIn = async (req, res) => {
             {
                 userId: user._id
             }, 
-            process.env.ACCESS_TOKEN_SECRECT,
+            process.env.ACCESS_TOKEN_SECRET,
             {expiresIn: ACCESS_TOKEN_TTL})
         // create refeshToken
         const refreshToken = crypto.randomBytes(64).toString('hex');
@@ -127,7 +127,7 @@ export const refreshToken = async (req, res) => {
             {
                 userId: session.userId
             },
-            process.env.ACCESS_TOKEN_SECRECT,
+            process.env.ACCESS_TOKEN_SECRET,
             {expiresIn: ACCESS_TOKEN_TTL}
         )
         // return

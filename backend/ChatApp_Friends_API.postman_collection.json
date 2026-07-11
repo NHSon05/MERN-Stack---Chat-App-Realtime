@@ -1,0 +1,173 @@
+{
+	"info": {
+		"name": "ChatApp Friend APIs",
+		"description": "Collection để test tính năng kết bạn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user1@gmail.com\",\n    \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Friends",
+			"item": [
+				{
+					"name": "Gửi lời mời kết bạn",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"to\": \"<ID_NGUOI_NHAN>\",\n    \"message\": \"Chào bạn, kết bạn với mình nhé!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/friends/request",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"friends",
+								"request"
+							]
+						}
+					}
+				},
+				{
+					"name": "Lấy danh sách lời mời kết bạn",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/friends/requests",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"friends",
+								"requests"
+							]
+						}
+					}
+				},
+				{
+					"name": "Chấp nhận lời mời kết bạn",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/friends/request/<REQUEST_ID>/accept",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"friends",
+								"request",
+								"<REQUEST_ID>",
+								"accept"
+							]
+						}
+					}
+				},
+				{
+					"name": "Từ chối lời mời kết bạn",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/friends/request/<REQUEST_ID>/decline",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"friends",
+								"request",
+								"<REQUEST_ID>",
+								"decline"
+							]
+						}
+					}
+				},
+				{
+					"name": "Lấy danh sách bạn bè",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/friends/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"friends",
+								""
+							]
+						}
+					}
+				},
+				{
+					"name": "Xóa bạn",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/friends/<FRIEND_ID>",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"friends",
+								"<FRIEND_ID>"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5001"
+		}
+	]
+}

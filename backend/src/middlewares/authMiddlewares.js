@@ -12,7 +12,7 @@ export const protectedRoute = (req, res, next) => {
             return res.status(401).json({message: "Không tìm thấy accessToken"})
         }
         // xác nhận token hợp lệ
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRECT, async (err, decodedUser) => {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decodedUser) => {
             if (err) {
                 console.error(err)
 
