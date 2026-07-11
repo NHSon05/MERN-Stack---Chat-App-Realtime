@@ -51,3 +51,29 @@ export const checkFriendShip = async (req, res, next) => {
         return res.status(500).json({ message: 'lỗi hệ thống' });
     }
 };
+
+export const checkGroupMembership = async (req, res, next) => {
+    try {
+        const { conversationId } = req.body;
+        const userId = req.user._id;
+        const conversation = await Conversation.findById(conversationId);
+        if (!conversation) {
+            return res
+                .status(404)
+                .json({ message: 'Không tim thấy cuộc trò chuyện' });
+        }
+        const isMemeber = conversation.participants.some(
+            (p) => p.userId.toString() === userId.toString()
+        );
+        if (!isMemeber) {
+            return res
+                .status(403)
+                .json({ message: 'Bạn không ở trong nhóm này' });
+        }
+        req.conversation = conversation;
+        next();
+    } catch (error) {
+        console.error('Lỗi checkGroupMemberShip', error);
+        return res.status(500).json({ message: 'lỗi hệ thống' });
+    }
+};
