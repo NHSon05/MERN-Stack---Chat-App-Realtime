@@ -20,3 +20,16 @@ export const updateConversationAfterCreateMessage = (
         conversation.unreadCounts.set(memberId, isSender ? 0 : prevCount + 1);
     });
 };
+
+// Phát đi sự kiện new message vào một room
+export const emitNewMessage = (io, conversation, message) => {
+    io.to(conversation._id.toString()).emit('new-message', {
+        message,
+        conversation: {
+            _id: conversation._id,
+            lastMessage: conversation.lastMessage,
+            lastMessageAt: conversation.lastMessageAt,
+        },
+        unreadCounts: conversation.unreadCounts,
+    });
+};
