@@ -35,7 +35,7 @@ io.on('connection', async (socket) => {
 
     socket.on('disconnect', () => {
         onlineUsers.delete(user._id);
-        io.emit('online-users', Array.from(onlineUsers.keys));
+        io.emit('online-users', Array.from(onlineUsers.keys()));
         console.log(`socket disconnected: ${socket.id}`);
     });
 });
