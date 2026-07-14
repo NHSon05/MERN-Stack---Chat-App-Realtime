@@ -19,77 +19,81 @@ const MessageItem = ({
   selectedConvo,
   lastMessageStatus,
 }: MessageItemProps) => {
-  const prev = messages[index - 1];
-  const isGroupBreak =
+  const prev = index + 1 < messages.length ? messages[index + 1] : undefined;
+  const isShowTime =
     index === 0 ||
-    message.senderId !== prev?.senderId ||
     new Date(message.createdAt).getTime() -
       new Date(prev?.createdAt || 0).getTime() >
       300000;
+  const isGroupBreak = isShowTime || message.senderId !== prev?.senderId;
+
   const participant = selectedConvo.participants.find(
     (p: Participant) => p._id.toString() === message.senderId.toString(),
   );
   return (
-    <div
-      className={cn(
-        "flex gap-2 message-bounce mt-1",
-        message.isOwn ? "justify-end" : "justify-start",
+    <>
+      {/* timestampt */}
+      {isShowTime && (
+        <span className="text-xs text-muted-foreground px-1 text-center">
+          {formatMessageTime(new Date(message.createdAt))}
+        </span>
       )}
-    >
-      {/* Avatar */}
-      {!message.isOwn && (
-        <div className="w-8">
-          {isGroupBreak && (
-            <UserAvatar
-              type="chat"
-              name={participant?.displayName || "User"}
-              avatarUrl={participant?.avatarUrl || undefined}
-            />
-          )}
-        </div>
-      )}
-      {/* Tin Nhắn */}
+
       <div
         className={cn(
-          "max-w-xs lg:max-w-md space-y-1 flex flex-col",
-          message.isOwn ? "items-end" : "items-start",
+          "flex gap-2 message-bounce mt-1",
+          message.isOwn ? "justify-end" : "justify-start",
         )}
       >
-        <Card
+        {/* Avatar */}
+        {!message.isOwn && (
+          <div className="w-8">
+            {isGroupBreak && (
+              <UserAvatar
+                type="chat"
+                name={participant?.displayName || "User"}
+                avatarUrl={participant?.avatarUrl || undefined}
+              />
+            )}
+          </div>
+        )}
+        {/* Tin Nhắn */}
+        <div
           className={cn(
-            "p-3",
-            message.isOwn
-              ? "chat-bubble-sent border-0"
-              : "bg-chat-bubble-received",
+            "max-w-xs lg:max-w-md space-y-1 flex flex-col",
+            message.isOwn ? "items-end" : "items-start",
           )}
         >
-          <p className="text-sm leading-relaxed break-works">
-            {message.content}
-          </p>
-        </Card>
-        {/* timestampt */}
-        {isGroupBreak && (
-          <span className="text-xs text-muted-foreground px-1">
-            {formatMessageTime(new Date(message.createdAt))}
-          </span>
-        )}
-
-        {/* Seen || Deliver */}
-        {message.isOwn && message._id === selectedConvo.lastMessage?._id && (
-          <Badge
-            variant="outline"
+          <Card
             className={cn(
-              "text-xs px-1.5 py-0.5 h-4 border-0",
-              lastMessageStatus === "seen"
-                ? "bg-primary/20 text-primary"
-                : "bg-muted text-muted-foreground",
+              "p-3",
+              message.isOwn
+                ? "chat-bubble-sent border-0"
+                : "bg-chat-bubble-received",
             )}
           >
-            {lastMessageStatus}
-          </Badge>
-        )}
+            <p className="text-sm leading-relaxed break-works">
+              {message.content}
+            </p>
+          </Card>
+
+          {/* Seen || Deliver */}
+          {message.isOwn && message._id === selectedConvo.lastMessage?._id && (
+            <Badge
+              variant="outline"
+              className={cn(
+                "text-xs px-1.5 py-0.5 h-4 border-0",
+                lastMessageStatus === "seen"
+                  ? "bg-primary/20 text-primary"
+                  : "bg-muted text-muted-foreground",
+              )}
+            >
+              {lastMessageStatus}
+            </Badge>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
