@@ -24,6 +24,7 @@ import DirectMessageList from "../chat/DirectMessageList";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { NavUser } from "./nav-user";
+import AddFriendModel from "../chat/AddFriendModel";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { isDark, toggleTheme } = useThemeStore();
@@ -79,7 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupLabel className="uppercase">Bạn bè</SidebarGroupLabel>
           <SidebarGroupAction title="Kết bạn" className="cursor-pointer">
-            <NewGroupChatModel />
+            <AddFriendModel />
           </SidebarGroupAction>
           <SidebarGroupContent>
             <DirectMessageList />

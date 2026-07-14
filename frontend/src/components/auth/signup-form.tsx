@@ -1,14 +1,14 @@
-import { cn } from "@/lib/utils"
-import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
+import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
-import {z} from 'zod'
-import {useForm} from 'react-hook-form'
-import {zodResolver} from '@hookform/resolvers/zod'
-import { useAuthStore } from "@/stores/useAuthStore"
-import { useNavigate } from "react-router"
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useNavigate } from "react-router";
 
 const signUpSchema = z.object({
   firstname: z.string().min(1, "Họ bắt buộc phải có"),
@@ -16,26 +16,29 @@ const signUpSchema = z.object({
   username: z.string().min(3, "Tên đăng nhập phải có ít nhất 3 ký tự"),
   email: z.email("email không hợp lệ"),
   password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
-})
+});
 
-type SignUpFormValues = z.infer<typeof signUpSchema>
+type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-
-  const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<SignUpFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
-  })
-  const navigate = useNavigate()
-  const { signUp } = useAuthStore()
+  });
+  const navigate = useNavigate();
+  const { signUp } = useAuthStore();
   const onSubmit = async (data: SignUpFormValues) => {
-    const {username, password, email, firstname,  lastname, } = data;
+    const { username, password, email, firstname, lastname } = data;
     // call api to signup
-    await signUp(username, password, email, firstname, lastname)
-    navigate('/login');
-  }
+    await signUp(username, password, email, firstname, lastname);
+    navigate("/login");
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -45,11 +48,12 @@ export function SignupForm({
             <div className="flex flex-col gap-6">
               {/* header - logo */}
               <div className="flex flex-col items-center text-center gap-2">
-                <a href="/" className="flex flex-col items-center justify-center">
-                  <img src="/logo.svg" alt="logo" className=""/>
-                  <h1 className="text-2xl font-bold">
-                    Create your account
-                  </h1>
+                <a
+                  href="/"
+                  className="flex flex-col items-center justify-center"
+                >
+                  <img src="/logo.svg" alt="logo" className="" />
+                  <h1 className="text-2xl font-bold">Create your account</h1>
                   <p className="text-muted-foreground text-balance">
                     Welcome to app. Register to start
                   </p>
@@ -58,10 +62,7 @@ export function SignupForm({
               {/* Name */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label
-                    htmlFor="firstname"
-                    className="block text-sm"
-                  >
+                  <Label htmlFor="firstname" className="block text-sm">
                     Firstname
                   </Label>
                   <Input
@@ -71,39 +72,24 @@ export function SignupForm({
                   />
                   {/* todo: error message */}
                   {errors.firstname && (
-                    <p className="text-destructive text-sm">
-                      {errors.firstname.message}
-                    </p>
+                    <p className="error-message">{errors.firstname.message}</p>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label
-                    htmlFor="lastname"
-                    className="block text-sm"
-                  >
+                  <Label htmlFor="lastname" className="block text-sm">
                     Lastname
                   </Label>
-                  <Input
-                    type="text"
-                    id="lastname"
-                    {...register("lastname")}
-
-                  /> 
+                  <Input type="text" id="lastname" {...register("lastname")} />
                   {/* todo: error message */}
                   {errors.lastname && (
-                    <p className="text-destructive text-sm">
-                      {errors.lastname.message}
-                    </p>
+                    <p className="error-message">{errors.lastname.message}</p>
                   )}
                 </div>
               </div>
 
               {/* Username */}
               <div className="flex flex-col gap-3">
-                <Label
-                  htmlFor="username"
-                  className="block text-sm"
-                >
+                <Label htmlFor="username" className="block text-sm">
                   Username
                 </Label>
                 <Input
@@ -114,17 +100,12 @@ export function SignupForm({
                 />
                 {/* todo: error message */}
                 {errors.username && (
-                  <p className="text-destructive text-sm">
-                    {errors.username.message}
-                  </p>
+                  <p className="error-message">{errors.username.message}</p>
                 )}
-              </div>  
+              </div>
               {/* Email */}
               <div className="flex flex-col gap-3">
-                <Label
-                  htmlFor="email"
-                  className="block text-sm"
-                >
+                <Label htmlFor="email" className="block text-sm">
                   Email
                 </Label>
                 <Input
@@ -133,48 +114,33 @@ export function SignupForm({
                   {...register("email")}
                   placeholder="m@email.com"
                 />
-                {/* todo: error message */} 
+                {/* todo: error message */}
                 {errors.email && (
-                  <p className="text-destructive text-sm">
-                    {errors.email.message}
-                  </p>
+                  <p className="error-message">{errors.email.message}</p>
                 )}
-              </div>  
+              </div>
               {/* Password */}
               <div className="flex flex-col gap-3">
-                <Label
-                  htmlFor="password"
-                  className="block text-sm"
-                >
+                <Label htmlFor="password" className="block text-sm">
                   Password
                 </Label>
                 <Input
                   type="password"
                   id="password"
                   {...register("password")}
-
                 />
                 {/* todo: error message */}
                 {errors.password && (
-                  <p className="text-destructive text-sm">
-                    {errors.password.message}
-                  </p>
+                  <p className="error-message">{errors.password.message}</p>
                 )}
-              </div>  
+              </div>
               {/* Button */}
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isSubmitting}
-              >
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
                 Create account
               </Button>
               <div className="text-center text-sm">
-                Already have an account? {" "}
-                <a 
-                  href="/login"
-                  className="underline underline-offset-4"
-                >
+                Already have an account?{" "}
+                <a href="/login" className="underline underline-offset-4">
                   Login here
                 </a>
               </div>
@@ -194,5 +160,5 @@ export function SignupForm({
         and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-  )
+  );
 }
