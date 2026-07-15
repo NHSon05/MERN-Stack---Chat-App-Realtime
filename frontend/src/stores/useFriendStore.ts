@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { create } from "zustand";
 
 export const useFriendStore = create<FriendState>((set, get) => ({
+  friends: [],
   loading: false,
   receivedList: [],
   sentList: [],
@@ -73,6 +74,17 @@ export const useFriendStore = create<FriendState>((set, get) => ({
       toast.success("Đã từ chối kết bạn");
     } catch (error) {
       console.error("Lỗi xảy ra khi từ chối kết bạn", error);
+    } finally {
+      set({ loading: false });
+    }
+  },
+  getFriends: async () => {
+    try {
+      set({ loading: true });
+      const friends = await friendService.getFriendList();
+      set({ friends: friends });
+    } catch (error) {
+      console.error("Lỗi xảy ra khi load friends", error);
     } finally {
       set({ loading: false });
     }
