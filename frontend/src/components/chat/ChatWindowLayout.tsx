@@ -11,7 +11,7 @@ export const ChatWindowLayout = () => {
   const {
     activeConversationId,
     conversations,
-    messages,
+    // messages,
     markAsSeen,
     messagesLoading: loading,
   } = useChatStore();
